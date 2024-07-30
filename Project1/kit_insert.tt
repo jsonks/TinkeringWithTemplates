@@ -1,0 +1,38 @@
+<div class="notice-printer-wrapper" style="display: grid; grid-template-columns: 1fr 3fr 1fr; height: auto;">
+       <div class="notice-panels">
+              [% FOREACH b IN data %]
+              <div class="panel-default" style="margin-top: 17px;">
+                     <div class="panel-body">
+                            <button class="print-one-button btn btn-primary" id="printone"><i class="fa fa-print"></i> Print</button>
+
+                            <div class="notice print" style="font-size: large; font-family: sans-serif; padding: 10mm; width: 8.5in; max-width: 8.5in; min-height: 11in; margin-top: 15px; background-color: white; display: grid; grid-template-columns: 7.5in; grid-gap: 10px; grid-template-rows: 2in 2in 5.5in 1.5in;"  contenteditable="true">
+                                          <div class="item">
+                                                 <h2 align="center">[% b.itemcallnumber %]</h2>
+                                                 <hr>
+                                                        <div align="center" style="margin: 13mm 0;">
+                                                         <h3>[% b.title %]</h3>
+                                                         <h4>[% b.itemcallnumber %]</h4>
+                                                        </div>
+       
+                                          </div>
+                                          <div class="item">
+                                                 <p>Contains:</p>
+                                                 <p>[% b.pages %]</p>
+                                          </div>
+                                          <div class="spacer"></div>
+                                          <div class="item">
+                                                 <div align="center">
+                                                        <span>[% b.bcodepic %]</span><br>
+                                                        <span>[% b.bcodetext %]</span><br>
+                                                        <hr>
+                                                        <p style="font-size: small;">Southeast Kansas Library System, 218 E. Madison, Iola, KS  66749</p>
+                                                 </div>
+                                          </div>
+                            </div>
+
+                     </div>
+              </div>
+              [% END %]
+       </div>
+       <div></div>
+</div>
