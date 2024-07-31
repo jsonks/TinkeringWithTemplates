@@ -1,0 +1,147 @@
+[%- USE Price -%]
+[%- USE KohaDates -%]
+
+
+
+<div class="notice-printer-wrapper" style="display: grid; grid-template-columns: 1fr 3fr 1fr; height: auto;">
+<div class="floating-controls" style="margin: 10px; position: sticky; top: 0; height: 50vh;">
+<button class="print-notice-button btn btn-primary" id="printnoticesbutton" style="display: block; margin: 10px; width: 90%;"><i class="fa fa-print"></i> Print notice batch</button>
+<button class="edit-notice-button btn btn-secondary" id="editnoticebutton" style="display: block; margin: 10px; width: 90%; border: 1px solid #7CBB5161; background-color: #7CBB5161;"><i class="fa fa-lock"></i> <span>Unlock editing</span></button>
+</div>
+<div class="notice-panels">
+
+[% IF data.size %]
+[% FOREACH b IN data %]
+[% IF b.hasodues == 'yes' %]
+<div class="panel-default" style="margin-top: 17px;">
+ 
+
+
+  <div class="panel-body">
+<button class="print-one-button btn btn-primary" id="printone"><i class="fa fa-print"></i> Print this notice</button>
+<button class="exclude-from-print-button btn btn-secondary" id="excludebutton"><i class="fa fa-remove"></i> <span>Exclude from batch print</span></button>
+
+
+
+[% totalValue = 0 %]
+<div class="notice print" style="font-size: smaller; font-family: sans-serif; padding: 10mm 20mm 0; width: 8.5in; max-width: 8.5in; min-height: 11in; margin-top: 15px; background-color: white;">
+<div style ="height: 47mm;">
+
+<h2 align="center">
+NOTICE OF OVERDUE ITEMS
+</h2>
+
+<div align="center" style="margin: 2mm 0;"><span style="font-weight: bold;">[% b.branchname %]</span><br/>
+[% b.branchaddress1 %]<br/>
+[% b.branchcity %], [% b.branchstate %]  [% b.branchzip %]<br/>
+<a href="tel:+1[% b.branchphone FILTER remove('-') %]">[% b.branchphone %]</a><br/>
+<a href="mailto:[% b.branchemail %]">[% b.branchemail %]</a>
+</div>
+</div>
+<div style="height: 28mm;">
+[% IF b.address2 %]<div style="height: 4mm;"></div>[% ELSE %]<div style="height: 6mm;"></div>[% END %]
+<div class="patron-info-container" style="display: grid; grid-template-columns: 4fr 1fr;">
+    <div class="patron-info-item">
+        <p>[% b.firstname %] [% b.surname %]<br>
+               [% b.streetnumber %] [% b.address %]<br>
+               [% IF b.address2 %][% b.address2 %]<br>[% END %]
+               [% b.city %], [% b.state %]  [% b.zipcode %]</p>
+    </div>
+    <div class="patron-info-item">
+        <p>Date: [% b.noticedate%]<br>
+               Phone: [% b.patronphone %]</p>
+    </div>
+</div>
+</div>
+<div style="height: 13mm;"></div>
+<p>Hello [% b.firstname %],</p>
+
+<p>You have past due items. </p>
+
+<div class="odue-container" style="border-bottom: 1px solid ;">
+<div class="odue-list-header" style="display: grid; grid-template-columns: 1fr 4fr 2fr 1.5fr 0.5fr; font-weight: bold; border-bottom: 1px solid;">
+  <div class="odue-colheading">Due date</div>
+  <div class="odue-colheading">Title</div>
+  <div class="odue-colheading">Call number</div>
+  <div class="odue-colheading">Barcode</div>
+  <div class="odue-colheading">Cost</div>
+</div>
+
+
+[% IF b.odue1 %]
+<em style="display: grid; grid-template-columns:9fr; ">First notice</em>
+<div class="odue-list">
+       [% b.odue1 %]
+</div>
+[% END %]
+
+[% IF b.odue2 %]
+<em style="display: grid; grid-template-columns:9fr; ">Second notice</em>
+<div class="odue-list">
+       [% b.odue2 %]
+</div>
+[% END %]
+
+[% IF b.odue3 %]
+<em style="display: grid; grid-template-columns:9fr; ">Third notice</em>
+<div class="odue-list">
+       [% b.odue3 %]
+</div>
+[% END %]
+
+[% IF b.lilodue %]
+<em style="display: grid; grid-template-columns:9fr; ">Other overdues</em>
+<div class="odue-list">
+       [% b.lilodue %]
+</div>
+[% END %]
+
+[% IF b.notdueyet %]
+<em style="display: grid; grid-template-columns:9fr;">Other checkouts -- not yet due</em>
+<div class="odue-list" >
+       [% b.notdueyet %]
+</div>
+[% END %]
+
+</div>
+
+<p>Please return or renew these items as soon as possible.</p>
+
+<p>For help or to renew, call <a href="tel:+1[% b.branchphone FILTER remove('-') %]">[% b.branchphone %]</a>, email <a href="mailto:[% b.branchemail %]">[% b.branchemail %]</a>, or access your account online at <a href="https://www.seknfind.org/">www.seknfind.org</a>.</p>
+
+<p>If you have returned these items, please contact the [% b.branchname %] so that we can clear up this matter.</p>
+
+<p>Sincerely,</p>
+<p>[% b.branchname %] Staff</p>
+</div>
+
+
+  </div>
+
+  <div class="panel-footer">
+    <span>ID: [% b.message_id %] - [% b.letter_code%] - [% b.subject %] - [% b.surname %], [% b.firstname %]</span>
+   </div>
+</div>
+[% ELSE %]
+<div class="panel-default" style="margin-top: 17px;">
+       <div id="no-notices-msg" style="padding: 10px;">A notice for <a href="/cgi-bin/koha/members/notices.pl?borrowernumber=[% b.borrowernumber %]" target="_blank"> <u>[% b.firstname %] [% b.surname %]</u></a> was generated for this date, but overdues have since been resolved.</div>
+</div>
+[% END %]
+[% END %]
+[% ELSE %]
+  <hr>
+  <div id="no-notices-msg" class="alert alert-warning">No print notices found for this date.</div>
+[% END %]
+</div>
+<div></div>
+</div>
+
+<style>
+.panel-heading {padding: 10px 15px !important;}
+
+.notice a, .notice a:visited {color: #2C5AA4 !important;}
+
+.odue:nth-child(odd)  {background-color: #eee;}
+
+.odue-list:not(:last-child) {border-bottom: 1px dotted;}
+</style>
