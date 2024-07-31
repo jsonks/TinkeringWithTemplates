@@ -1,0 +1,221 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+
+<div id="page" style="background-color: white; height: 11in; width: 8.5in; padding: 0.25in">
+
+[% FOREACH b IN data %]
+
+<h1>[% b.branchname %] Statistics: [% b.date1 %] to [% b.date2 %]</h1>
+<hr>
+
+<div class="grid-container">
+
+<div class="grid-item">
+<div style="text-align: center;">
+<div style="font-size: 48px;"><span style="color: rgba(100,210,80,.75);"><i class="fa-solid fa-child-dress" style="font-size: 36px;"></i><i class="fa-solid fa-person"></i><i class="fa-solid fa-person-dress"></i><i class="fa-solid fa-person-cane"></i><i class="fa-solid fa-child" style="font-size: 36px;"></i></span></div>
+<div style="font-size: 72px; font-weight: bold; margin: -10px;"> [% b.borrowercount %] </div>
+<div class="caption">registered borrowers</div>
+[% IF b.newborrowers > 0 %]
+<div style="font-size: 14px; color: #408540; font-weight: bold; padding-top: 15px;"><i class="fa-solid fa-plus"></i> [% b.newborrowers %] new accounts</div>
+[% END %]
+</div>
+</div>
+
+
+<div class="grid-item">
+<div style="text-align: center;">
+<div style="font-size: 48px;"><span style="color: rgba(90,165,255,.75)"><i class="fa-solid fa-book"></i> <i class="fa-solid fa-compact-disc"></i> <i class="fa-solid fa-music"></i></span></div>
+<div style="font-size: 72px; font-weight: bold; margin: -10px;"> [% b.collectioncount%] </div>
+<div class="caption">items owned</div>
+[% IF b.newitems> 0 %]
+<div style="font-size: 14px; color: #408540; font-weight: bold; padding-top: 15px;"><i class="fa-solid fa-plus"></i> [% b.newitems%] new items</div>
+[% END %]
+</div>
+</div>
+
+<div class="grid-item">
+<div style="text-align: center;">
+<div style="font-size: 48px;"><span style="color: rgba(240,50,50,.75)"><i class="fa-solid fa-book"></i> <i class="fa-solid fa-right-long"></i> <i class="fa-solid fa-person"></i></span></div>
+<div style="font-size: 72px; font-weight: bold; margin: -10px;"> [% b.holdscount%] </div>
+<div class="caption">holds filled</div>
+[% IF b.newitems> 0 %]
+[% END %]
+</div>
+</div>
+
+<div class="grid-item1">
+<h3 style="margin-top: -15px;   grid-column: 1 / 4;">Item counts</h3>
+<div class="subitem">
+<ul class="charts-css legend legend-rectangle">
+  <li> Adult Books: [% b.countAB %] </li>
+  <li> Audiobooks: [% b.countAUD %] </li>
+  <li> Blu-rays: [% b.countBLU %] </li>
+  <li> DVDs: [% b.countDVD %] </li>
+  <li> Juvenile Books: [% b.countJB %] </li>
+  <li> Library of Things: [% b.countLOT %] </li>
+  <li> Music: [% b.countMUS %] </li>
+  <li> Periodicals: [% b.countPER %] </li>
+  <li> Video Games & Software: [% b.countSOF %] </li>
+</ul>
+</div>
+<div class="subitem">
+<table class="charts-css bar hide-data">
+<tbody>
+
+       <tr>
+              <td style="--size: calc(([% b.countAB %]/[% b.countAB %])*2)"><span class="data">[% b.countAB %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countAUD %]/[% b.countAB %])*2)"><span class="data">[% b.countAUD %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countBLU %]/[% b.countAB %])*2)"><span class="data">[% b.countBLU %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countDVD %]/[% b.countAB %])*2)"><span class="data">[% b.countDVD %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countJB %]/[% b.countAB %])*2)"><span class="data">[% b.countJB %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countLOT %]/[% b.countAB %])*2)"><span class="data">[% b.countLOT %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countMUS %]/[% b.countAB %])*2)"><span class="data">[% b.countMUS %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countPER %]/[% b.countAB %])*2)"><span class="data">[% b.countPER %]</span></td>
+       </tr>
+       <tr>
+              <td style="--size: calc(([% b.countSOF %]/[% b.countAB %])*2)"><span class="data">[% b.countSOF %]</span></td>
+       </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="grid-item2">
+<h3 style="margin-top: -15px;   grid-column: 1 / 4;">Circulation</h3>
+<div class="subitem">
+<table class="charts-css pie show-data-on-hover">
+<tbody>
+
+       <tr>
+              <td style="--start: 0; --end: [% b.slice1 %]"><span class="data">[% b.AB %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice1 %]; --end: [% b.slice2 %]"><span class="data">[% b.AUD %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice2 %]; --end: [% b.slice3 %]"><span class="data">[% b.BLU %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice3 %]; --end: [% b.slice4 %]"><span class="data">[% b.DVD %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice5 %]; --end: [% b.slice6 %]"><span class="data">[% b.JB %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice6 %]; --end: [% b.slice7 %]"><span class="data">[% b.LOT %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice7 %]; --end: [% b.slice8 %]"><span class="data">[% b.MUS %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice8 %]; --end: [% b.slice9 %]"><span class="data">[% b.PER %]</span></td>
+       </tr>
+       <tr>
+              <td style="--start: [% b.slice9 %]; --end: 1"><span class="data">[% b.SOF %]</span></td>
+       </tr>
+</tbody>
+</table>
+</div>
+<div class="subitem">
+<ul class="charts-css legend legend-rectangle">
+  <li> Adult Books: [% b.AB %] </li>
+  <li> Audiobooks: [% b.AUD %] </li>
+  <li> Blu-rays: [% b.BLU %] </li>
+  <li> DVDs: [% b.DVD %] </li>
+  <li> Juvenile Books: [% b.JB %] </li>
+  <li> Library of Things: [% b.LOT %] </li>
+  <li> Music: [% b.MUS %] </li>
+  <li> Periodicals: [% b.PER %] </li>
+  <li> Video Games & Software: [% b.SOF %] </li>
+</ul>
+</div>
+
+<div class="subitem caption" style="padding-top: 15px;">[% b.total %] total circulations</div>
+
+</div>
+
+<div class="grid-item">
+<h3 style="margin-top: -15px;   grid-column: 1 / 4;">Most popular</h3>
+<div style="text-align: center;">
+  <img src="https://images-na.ssl-images-amazon.com/images/P/[% b.normISBN %].01.MZZZZZZZZZ.jpg">
+  <div class="caption"></div>
+  <p><strong>[% b.fulltitle %]</strong> [% IF b.author %] by [% b.author %] [% END %] was the most popular book in this period with <strong>[% b.popcircs %]</strong> circulations.</p>
+</div>
+</div>
+
+</div>
+[% END %]
+
+</div>
+
+<style>
+
+.grid-container {
+  display: grid;
+  column-gap: 0.25in;
+  row-gap: 0.25in;
+  grid-template-columns: 2.5in 2.5in 2.5in;
+}
+
+.grid-item {
+   /*border: 1px solid red;*/
+   padding: 2em;
+}
+
+.grid-item2 {
+   /*border: 1px solid red;*/
+   padding: 2em;
+   display: grid;
+   grid-column: 1/3;
+   grid-template-columns: subgrid;
+}
+
+.grid-item1 {
+   /*border: 1px solid red;*/
+   padding: 2em;
+   display: grid;
+   grid-column: 1/4;
+   grid-template-columns: subgrid;
+}
+
+.subitem2 {
+  grid-row: 2 / 3;
+  text-align: center;
+}
+
+.caption{
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+#pie-example-1 {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.pie tbody tr:nth-child(odd):not(.dtrg-group,.active,.ok) td:not(.bg-danger,.bg-warning,.bg-info,.bg-success,.bg-primary) {
+    background-color: unset;
+}
+</style>
