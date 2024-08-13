@@ -44,3 +44,6 @@ IF
         b.biblionumber,
         '&type=QRcode&notext=1',
         '"></img>') AS qrcode
+
+/* Get current month name *'/
+MONTHNAME(curdate()) AS currentmonth
