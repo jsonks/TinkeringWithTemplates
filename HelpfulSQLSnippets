@@ -1,0 +1,46 @@
+/* Normalize to ISBN 10 -- needs biblioitems table */
+IF
+  (LEFT(TRIM(bi.isbn), 3) = '978',
+    CONCAT(SUBSTR(TRIM(bi.isbn), 4, 9),
+    REPLACE(MOD(11 - MOD
+        (CONVERT(SUBSTR(TRIM(bi.isbn), 4, 1), UNSIGNED INTEGER)*10 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 5, 1), UNSIGNED INTEGER)*9 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 6, 1), UNSIGNED INTEGER)*8 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 7, 1), UNSIGNED INTEGER)*7 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 8, 1), UNSIGNED INTEGER)*6 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 9, 1), UNSIGNED INTEGER)*5 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 10, 1), UNSIGNED INTEGER)*4 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 11, 1), UNSIGNED INTEGER)*3 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 12, 1), UNSIGNED INTEGER)*2, 11
+	  ), 11), '10', 'X')
+	),
+    LEFT(TRIM(bi.isbn), 10)
+  ) AS normISBN
+
+/* Render Amazon cover image using normalized ISBN 10 -- needs biblioitems table */
+  COALESCE(CONCAT('<img src="https://images-na.ssl-images-amazon.com/images/P/',
+  IF
+  (LEFT(TRIM(bi.isbn), 3) = '978',
+    CONCAT(SUBSTR(TRIM(bi.isbn), 4, 9),
+    REPLACE(MOD(11 - MOD
+        (CONVERT(SUBSTR(TRIM(bi.isbn), 4, 1), UNSIGNED INTEGER)*10 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 5, 1), UNSIGNED INTEGER)*9 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 6, 1), UNSIGNED INTEGER)*8 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 7, 1), UNSIGNED INTEGER)*7 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 8, 1), UNSIGNED INTEGER)*6 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 9, 1), UNSIGNED INTEGER)*5 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 10, 1), UNSIGNED INTEGER)*4 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 11, 1), UNSIGNED INTEGER)*3 +
+         CONVERT(SUBSTR(TRIM(bi.isbn), 12, 1), UNSIGNED INTEGER)*2, 11
+	  ), 11), '10', 'X')
+	),
+    LEFT(TRIM(bi.isbn), 10)
+  ),
+     '.01.MZZZZZZZZZ.jpg">'),'<img src="https://dl.dropboxusercontent.com/s/nkun7xeysbqp4q9/noImageAvailable.png?dl=0">') AS cover
+
+/* QR code to place a hold -- uses bibnumber for bib-level hold link*/
+  CONCAT( 
+        '<img src="/cgi-bin/koha/svc/barcode?barcode=https://www.seknfind.org/cgi-bin/koha/opac-reserve.pl?biblionumber=',
+        b.biblionumber,
+        '&type=QRcode&notext=1',
+        '"></img>') AS qrcode
