@@ -1,11 +1,10 @@
 <div class="page">
   <div class="grid-container">
     [% FOREACH row IN data %]
-     <div class="grid-item">
-      <div>[% row.stuff %]</div>
-      <div>[% row.junk %]</div>
-    </div>
-    [% END %]
+      <div class="grid-item">[% row.stuff %]</div>
+      <div class="grid-item">[% row.junk %]</div>
+      <div class="grid-item">[% row.bitsandbobs %]</div>
+     [% END %]
   </div>
 </div>
 
@@ -33,4 +32,3 @@
    padding: 2em;
 }
 </style>
-
