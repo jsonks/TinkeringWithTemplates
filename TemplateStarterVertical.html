@@ -1,0 +1,35 @@
+<div class="page">
+  <div class="grid-container">
+    [% FOREACH row IN data %]
+     <div class="grid-item">
+      <div>[% row.stuff %]</div>
+      <div>[% row.junk %]</div>
+    </div>
+    [% END %]
+  </div>
+</div>
+
+<style>
+.page {
+    font-size: smaller;
+    font-family: sans-serif;
+    padding: 10mm 20mm 0;
+    width: 8.5in;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin-top: 15px;
+    background-color: white;
+}
+
+.grid-container {
+  display: grid;
+  column-gap: 0.25in;
+  row-gap: 0.25in;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-item {
+   border: 1px solid red;
+   padding: 2em;
+}
+</style>
