@@ -36,3 +36,85 @@
 
   }
  }
+
+
+// --------- Print overdue notices 3022 ------------- //  
+//Print notices from a template
+  if (window.location.href.indexOf("guided_reports.pl?id=3022") > -1) {
+// Sort overdues in each notice   
+    var duelist = $('.odue-list');
+    
+    duelist.each(function(){
+      $(this).find('.odue').sort(function(a, b) {
+        return String.prototype.localeCompare.call($(a).data('callnum').toLowerCase(), $(b).data('callnum').toLowerCase());
+      }).appendTo($(this));
+    });
+    
+    //Content editable button
+    $('.edit-notice-button').click( function() {
+      $(this).find('.fa').toggleClass('fa-lock').toggleClass('fa-unlock');
+      $(this).find('span').text(function(i, text) {
+        return text === "Unlock editing" ? "Lock editing" : "Unlock editing";
+      });
+      $('.notice').attr('contenteditable', function(index, attr){
+          return attr == 'true' ? null : 'true';
+      });
+      $('.panel-body').toggleClass('panel-highlight');
+  });
+    
+    //exclude from print button
+    $(".exclude-from-print-button").click(function(){
+      $(this).next('.notice').toggleClass('print');
+      $(this).next('.notice').toggle();
+      $(this).find('.fa').toggleClass('fa-remove').toggleClass('fa-plus');
+      $(this).find('span').text(function(i, text) {
+        return text === "Exclude from batch print" ? "Include in batch print" : "Exclude from batch print";
+      });
+    });  
+
+    //Print single button
+    $('.print-one-button').click( function() {
+	let orderWindow2 = window.open('','');
+	orderWindow2.document.write(`
+        <style>
+        .odue:nth-child(odd)  {background-color: #eee;}
+        .no-print {display: none;}
+        .odue-list:not(:last-child) {border-bottom: 1px dotted;}
+        </style>`
+     );	
+     $(this).next().next('.notice').each(function() {
+        console.log($(this).html());
+     	orderWindow2.document.write( '<div style="font-family: arial; padding: 12mm 28mm 0; page-break-before:always; width:8.5in;">' + $(this).html() + '</div>' );
+     });
+  
+    orderWindow2.document.close();
+    orderWindow2.focus();
+    orderWindow2.print();
+    orderWindow2.close();
+    });
+    
+    //Print batch button
+    $('#printnoticesbutton').click( function() {
+	let orderWindow = window.open('','');
+	orderWindow.document.write(`
+        <style>
+        .odue:nth-child(odd)  {background-color: #eee;}
+        .no-print {display: none;}
+        .odue-list:not(:last-child) {border-bottom: 1px dotted;}
+        </style>`
+     );	
+     $('.print').each(function() {
+        //console.log($(this).html())
+     	orderWindow.document.write( '<div style="font-family: arial; padding: 12mm 28mm 0; page-break-before:always; width:8.5in;">' + $(this).html() + '</div>' );
+     });
+  
+    orderWindow.document.close();
+    orderWindow.focus();
+    orderWindow.print();
+    orderWindow.close();
+    });
+    
+
+    
+
+  }
