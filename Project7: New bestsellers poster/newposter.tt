@@ -1,0 +1,55 @@
+<div id="page">
+  <h1 style="text-align: center; font-size: 2.6rem; margin-top: 0;">🆕 New Bestsellers 📚</h1>
+  <p style="font-weight: bold; font-size: large; font-style: italic; text-align: center;">Don't see these newly added
+    titles on the shelf? Scan the QR code to place a hold.</p>
+
+  <div class="grid-container">
+    [% FOREACH b IN data %]
+    <div class="grid-item">
+      <img class="cover" src="https://images-na.ssl-images-amazon.com/images/P/[% b.cleanISBN %].01.MZZZZZZZZZ.jpg">
+      <h2>[% b.FullTitle %]</h2>
+      [% IF b.author %]<div><em>by [% b.author %]</em></div>[% END %]
+      <img class="qr-code"
+        src="https://staff-seklstest.bywatersolutions.com/cgi-bin/koha/svc/barcode?type=QRcode&modulesize=3&barcode=https%3A%2F%2Fseknfind.org%2Fcgi-bin%2Fkoha%2Fopac-reserve.pl%3Fbiblionumber%3D[% b.biblionumber %]"
+        alt="https://seknfind.org/cgi-bin/koha/opac-reserve.pl?biblionumber=[% b.biblionumber %]" width="100"
+        height="100" />
+      <div><sub><em>Scan to place a hold</em></sub></div>
+    </div>
+    [% END %]
+  </div>
+
+</div>
+
+<style>
+  #page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.25in;
+    background-color: white;
+  }
+
+  img.cover {
+    margin: 10px;
+  }
+
+  img.qr-code {
+    margin-top: 10px;
+  }
+
+  .grid-container {
+    display: grid;
+    /* Creates 3 columns of equal width (1 fraction each) */
+    grid-template-columns: repeat(3, 1fr);
+    /* Creates 2 rows (auto adjusts to content height) */
+    grid-template-rows: repeat(2, auto);
+    /* Adds space between the grid items */
+    gap: 10px;
+  }
+
+  .grid-item {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+</style>
