@@ -1,3 +1,6 @@
+<div id="toolbar" class="btn-toolbar sticky noprint">
+  <a class="btn btn-primary noprint" onclick="window.print()">Print</a>
+</div>
 <div id="printarea" style="margin: 0 auto;">
   [% FOREACH b IN data %]
   [% IF loop.count % 2 %]
@@ -5,21 +8,23 @@
     [% END %]
 
     <div class="arch-slip" align="center"
-      style="width: 4.2in; min-height: 10in; padding: 0in 0.5in; display: flex; flex-direction: column;">
+      style="background-color: white; width: 4.2in; min-height: 10.5in; padding: 0.1in 0.5in; display: flex; flex-direction: column;">
       <h2 style="color: black;">[% b.itemcallnumber %]</h2>
       <hr>
       <img style="margin: 0 auto;"
         src="https://staff-seklstest.bywatersolutions.com/cgi-bin/koha/svc/barcode?type=Code39&notext=1&height=50&barcode=[% b.barcode %]"
         alt="[% b.barcode %]" width="256" height="50" />
-      <p style="padding-top: 5px;">[% b.barcode %]</p>
+      <p style="padding: 5px;">[% b.barcode %]</p>
       <hr>
       <h1 style="font-size: 2.62rem;">[% b.title %]</h1>
       <div style="margin-top: auto; justify-content: flex-end;;">
+        [% IF b.homebranch == 'FRONTENAC' %]
         <hr>
         <img style="max-width: 2.75in;"
           src="https://www.seknfind.org/cgi-bin/koha/opac-retrieve-file.pl?id=9378e537bae68ab09632faeede5b413f"></img>
+        [% END %]
         <hr>
-        <h3><strong>🚫 IN-HOUSE USE ONLY 🚫</strong></h3>
+        <h3><strong style="color: red;">🚫 IN-HOUSE USE ONLY 🚫</strong></h3>
         <hr>
       </div>
     </div>
@@ -31,7 +36,16 @@
 </div>
 
 <style>
-  .arch-slip:nth-child(even) {
-    border-left: 0.5px dashed white;
-  }
+  /*
+.arch-slip:nth-child(even) {
+border-top: 0.5px dashed white;
+border-right: 0.5px dashed white;
+border-left: 0.5px dashed white;
+}
+
+.arch-slip:nth-child(odd) {
+border-top: 0.5px dashed white;
+border-left: 0.5px dashed white;
+}
+*/
 </style>
