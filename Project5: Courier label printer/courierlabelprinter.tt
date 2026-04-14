@@ -1,0 +1,40 @@
+<div>
+  <table id="libraries">
+    <tr>
+      <th>Library</th>
+      <th>Courier code</th>
+      <th>Route</th>
+      <th>Print label</th>
+    </tr>
+    [% FOREACH b IN data %]
+    <tr>
+      <td class="library" id="[% b.branchcode %]">[% b.branchname %]</td>
+      <td>[% b.couriercode %]</td>
+      <td>[% b.courierroute %]</td>
+      <td>
+        <div class="courier-label hide" id="label-[% b.branchcode %]">
+          <div class="h"><span
+              style="color: #10103a; background-color: #9c8c52; font-size: 48px; font-family: Serif; font-weight: bold;">H</span>
+          </div>
+          <div class="route">[% b.courierroute %]</div>
+          <div class="destination">
+            <span style="font-size: 48px;">[% b.couriercode %]</span><br>
+            [% b.branchname %]<br>
+            [% b.branchaddress1 %]<br>
+            [% IF b.branchaddress2 %][% b.branchaddress2 %]<br>[% END %]
+            [% b.branchcity%] [% b.branchstate%] [% b.branchzip %]
+          </div>
+          <div class="extracode">A12</div>
+        </div>
+        <button type="button" class="btn btn-primary print" id="print-label-[% b.branchcode %]">
+          Print
+        </button>
+      </td>
+    </tr>
+    [% END %]
+  </table>
+</div>
+
+<style>
+.hide {display: none;}
+</style>
