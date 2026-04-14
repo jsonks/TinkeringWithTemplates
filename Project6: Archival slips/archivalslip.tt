@@ -1,0 +1,37 @@
+<div id="printarea" style="margin: 0 auto;">
+  [% FOREACH b IN data %]
+  [% IF loop.count % 2 %]
+  <div class="pairs-container" style="display: flex; break-after: page;">
+    [% END %]
+
+    <div class="arch-slip" align="center"
+      style="width: 4.2in; min-height: 10in; padding: 0in 0.5in; display: flex; flex-direction: column;">
+      <h2 style="color: black;">[% b.itemcallnumber %]</h2>
+      <hr>
+      <img style="margin: 0 auto;"
+        src="https://staff-seklstest.bywatersolutions.com/cgi-bin/koha/svc/barcode?type=Code39&notext=1&height=50&barcode=[% b.barcode %]"
+        alt="[% b.barcode %]" width="256" height="50" />
+      <p style="padding-top: 5px;">[% b.barcode %]</p>
+      <hr>
+      <h1 style="font-size: 2.62rem;">[% b.title %]</h1>
+      <div style="margin-top: auto; justify-content: flex-end;;">
+        <hr>
+        <img style="max-width: 2.75in;"
+          src="https://www.seknfind.org/cgi-bin/koha/opac-retrieve-file.pl?id=9378e537bae68ab09632faeede5b413f"></img>
+        <hr>
+        <h3><strong>🚫 IN-HOUSE USE ONLY 🚫</strong></h3>
+        <hr>
+      </div>
+    </div>
+
+    [% IF loop.count % 2 == 0 OR loop.last %]
+  </div>
+  [% END %]
+  [% END %]
+</div>
+
+<style>
+  .arch-slip:nth-child(even) {
+    border-left: 0.5px dashed white;
+  }
+</style>
